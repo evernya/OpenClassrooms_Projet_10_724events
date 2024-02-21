@@ -16,9 +16,9 @@ const Select = ({
   const [value, setValue] = useState();
   const [collapsed, setCollapsed] = useState(true);
   const changeValue = (newValue) => {
-    onChange();
+    onChange(newValue); // donner un paramètre
     setValue(newValue);
-    setCollapsed(newValue);
+    setCollapsed(true); // fermer l'onglet toutes
   };
   return (
     <div className={`SelectContainer ${type}`} data-testid="select-testid">
