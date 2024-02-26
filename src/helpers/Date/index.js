@@ -1,3 +1,4 @@
+// La numérotation démarre à 0 
 export const MONTHS = {
   0: "janvier",
   1: "février",

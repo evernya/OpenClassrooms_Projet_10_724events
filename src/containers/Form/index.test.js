@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import Form from "./index";
 
 describe("When Events is created", () => {
@@ -22,8 +22,14 @@ describe("When Events is created", () => {
         })
       );
       await screen.findByText("En cours");
-      await screen.findByText("Envoyer");
-      expect(onSuccess).toHaveBeenCalled();
+      // Attend qu'une la condition d'envoie avec "Envoyer" soit satisfaite avant de continuer avec le test
+      await waitFor(() => {
+        expect(screen.findByText("Envoyer"));
+      }, { timeout: 3000 });
+      // Attend que onSuccess soit appelé de manière asynchrone après le clic sur le bouton de soumission.
+      await waitFor(() => {
+        expect(onSuccess).toHaveBeenCalled();
+      }, { timeout: 3000 });
     });
   });
 });

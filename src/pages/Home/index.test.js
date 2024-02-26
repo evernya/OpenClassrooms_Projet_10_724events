@@ -21,6 +21,7 @@ describe("When Form is created", () => {
         })
       );
       await screen.findByText("En cours");
+      // Attend qu'une la condition d'envoie avec "Message Envoyé" soit satisfaite avant de continuer avec le test
       await waitFor(() => {
         expect(screen.findByText("Message envoyé !"));
       }, { timeout: 3000 });

@@ -7,14 +7,18 @@ import "./style.scss";
 const Slider = () => {
   const { data } = useData();
   const [index, setIndex] = useState(0);
-  const byDateDesc = data?.focus.sort((evtA, evtB) =>
+  const byDateDesc = data?.focus?.sort((evtA, evtB) =>
+    // inversement de -1 et 1 afin que A soit placé avant B en ordre décroissant
     new Date(evtA.date) < new Date(evtB.date) ? 1 : -1
   );
   const nextCard = () => {
-    setTimeout(
-      () => setIndex(index < byDateDesc.length - 1 ? index + 1 : 0),
-      5000
-    );
+    if (byDateDesc !== undefined) {
+      setTimeout(
+        // ajout du - 1 pour la boucle
+        () => setIndex(index < byDateDesc.length - 1 ? index + 1 : 0),
+        5000
+      )
+    }
   };
   useEffect(() => {
     nextCard();
@@ -22,9 +26,8 @@ const Slider = () => {
   return (
     <div className="SlideCardList">
       {byDateDesc?.map((event, idx) => (
-        <>
+        <div key={event.title}>
           <div
-            key={event.title}
             className={`SlideCard SlideCard--${
               index === idx ? "display" : "hide"
             }`}
@@ -42,15 +45,16 @@ const Slider = () => {
             <div className="SlideCard__pagination">
               {byDateDesc.map((_, radioIdx) => (
                 <input
-                  key={`${event.id}`}
+                  key={`${_.title}`} // utilisation de la valeur "_"
                   type="radio"
                   name="radio-button"
-                  checked={index === radioIdx}
+                  checked={index === radioIdx} // state index à la place du prop idx
+                  readOnly // formulaire en lecture seule en évitant le message d'avertissement
                 />
               ))}
             </div>
           </div>
-        </>
+        </div>
       ))}
     </div>
   );
