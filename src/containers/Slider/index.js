@@ -45,7 +45,7 @@ const Slider = () => {
             <div className="SlideCard__pagination">
               {byDateDesc.map((_, radioIdx) => (
                 <input
-                  key={`${_.title}`} // utilisation de la valeur "_"
+                key={event.id || `fallback-${radioIdx}`} // utilise l'ID de la carte, mais si ce n'est pas disponible, utilise l'index
                   type="radio"
                   name="radio-button"
                   checked={index === radioIdx} // state index à la place du prop idx
